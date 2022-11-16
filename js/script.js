@@ -1,3 +1,32 @@
+// Timer
+var timeInterval;
+function timer(){
+    document.getElementById('start').classList.add("hide");
+    var min = document.getElementById("minutes");
+    var sec = document.getElementById("seconds");
+    var totalSeconds = 0;
+    timeInterval = setInterval(setTime, 1000);
+
+    function setTime() {
+    ++totalSeconds;
+    sec.innerHTML = cal(totalSeconds % 60);
+    min.innerHTML = cal(parseInt(totalSeconds / 60));
+    }
+
+    function cal(val) {
+        var valString = val.toString();
+        if (valString.length < 2) {
+        return "0" + valString;
+        } else {
+        return valString;
+        }
+    }
+}
+
+function stopTimer(){
+    clearInterval(timeInterval);
+}
+
 let ul = document.querySelectorAll('li');
 const letters= ["A", "B", "C", "D", "E", "F", "G", "H", ""]
 
@@ -20,9 +49,7 @@ const shuffle = (arr) => {
 
 const dragstart_handler = ev => {
     ev.dataTransfer.setData("text/plain", ev.target.id)
-    console.log(ev.target.classList);
     ev.target.classList.add('dragging');
-    console.log('111111',ev.target.classList);
     ev.dataTransfer.dropEffect = "move";
 }
 
@@ -57,7 +84,6 @@ const setDraggable = (items) => {
             }
     })
 }
-
 
 const drop_handler = ev => {
     ev.preventDefault();
@@ -94,9 +120,11 @@ const dragend_handler = ev => {
 }
 
 const popup = () => {
-    document.getElementById('message').innerText = "Hurray!! You won!";
+    var min = document.getElementById('minutes').innerText;
+    var sec = document.getElementById('seconds').innerText;
+    document.getElementById('message').innerText = "Hurray!! You won! \n Time "+min+" : "+sec;
     document.getElementById('modal').classList.remove("hide");
-
+    stopTimer();
 }
 
 const hidepopup = () => {
@@ -178,4 +206,3 @@ function start() {
 }
 
 window.onload = start();
-
